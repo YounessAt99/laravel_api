@@ -4,9 +4,7 @@ use App\Http\Controllers\API\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\RegisterController;
-use App\Http\Controllers\API\ResetPassword\CodeCheckController;
-use App\Http\Controllers\API\ResetPassword\ForgotPasswordController;
-use App\Http\Controllers\API\ResetPassword\ResetPasswordController;
+use App\Http\Controllers\API\ResetPassword\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +22,10 @@ Route::controller(RegisterController::class)->group(function(){
     Route::post('login', 'login');
 });
 
-// reset passord
-Route::post('password/email',  ForgotPasswordController::class);
-// Route::post('password/code/check', CodeCheckController::class);
-Route::post('password/reset', ResetPasswordController::class);
+//reset paswotd
+Route::post('password/email', [PasswordResetController::class, 'sendResetLinkEmail']);
+Route::post('password/reset', [PasswordResetController::class, 'reset']);
+Route::get('password/reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('products', [ProductController::class, 'index']);
