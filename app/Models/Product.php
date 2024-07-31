@@ -16,7 +16,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'detail', 'category_id'
+        'name', 'detail', 'category_id', 'image'
     ];
 
     public function category():BelongsTo

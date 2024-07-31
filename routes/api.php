@@ -28,13 +28,13 @@ Route::post('password/reset', [PasswordResetController::class, 'reset']);
 Route::get('password/reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
 
 Route::middleware('auth:sanctum')->group( function () {
-    Route::get('products', [ProductController::class, 'index']);
     Route::get('products/{product}', [ProductController::class, 'show']);
 });
 
-Route::middleware('admin')->group(function(){
+Route::middleware(['auth:sanctum', 'admin'])->group(function(){
+    Route::get('products', [ProductController::class, 'index']);
     Route::post('products', [ProductController::class, 'store']);
-    Route::put('products/{product}', [ProductController::class, 'update']);
+    Route::post('products/{product}', [ProductController::class, 'update']);
     Route::delete('products/{product}', [ProductController::class, 'destroy']);
 });
 
